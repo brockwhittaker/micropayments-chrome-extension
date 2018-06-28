@@ -1,6 +1,6 @@
 {
   "name": "NewsCart",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Read by the article on major news sites.",
   "permissions": ["activeTab", "storage", "tabs", "<all_urls>", "webRequest", "webRequestBlocking"],
   "content_scripts": [{

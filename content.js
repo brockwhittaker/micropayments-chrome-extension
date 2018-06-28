@@ -1,6 +1,6 @@
 let styleSheet;
 
-let TEMP_PATH = null; `https://flu.io`;
+let TEMP_PATH = null || `https://flu.io`;
 let API_PATH = TEMP_PATH || `http://localhost:1337`;
 
 const utils = {
