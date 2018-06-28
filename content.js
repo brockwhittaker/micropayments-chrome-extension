@@ -15,6 +15,10 @@ const utils = {
   },
 
   functionForDomain: async domain => {
+    // this ensures that none of my script runs on any sites that aren't in the
+    // `siteFuncs` variable in `js/siteFuncs.js`.
+    if (!siteFuncs[domain]) return;
+
     const cssRules = GenericCSSRules();
 
     styleSheet.addRule(cssRules);
@@ -24,27 +28,22 @@ const utils = {
       o.classList.add("portico--hide");
     });
 
-    if (siteFuncs[domain]) {
-      const url = window.location.href;
+    const url = window.location.href;
 
-      console.log("url: ", url);
+    console.log(`Sending request to: "${`${API_PATH}/fetch/`}" to get content for "${url}".`);
+    const html = await (await fetch(`${API_PATH}/fetch/`, {
+      body: JSON.stringify({ url }),
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      mode: 'cors', // no-cors, cors, *same-origin
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })).text();
 
-      console.log(`Sending request to: ${`${API_PATH}/fetch/`}, ${url}`)
-      const html = await (await fetch(`${API_PATH}/fetch/`, {
-        body: JSON.stringify({ url }),
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
-        mode: 'cors', // no-cors, cors, *same-origin
-        headers: {
-          'Content-Type': 'application/json'
-        },
-      })).text();
+    // this is not a valid page to run on.
+    if (html === "") return;
 
-      // this is not a valid page to run on.
-      if (html === "") return;
-
-      return siteFuncs[domain](html, { url });
-    }
-    else return () => console.log(`This site has no function.`);
+    return siteFuncs[domain](html, { url });
   },
 
   loadScripts: () => {
