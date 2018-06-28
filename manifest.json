@@ -1,0 +1,19 @@
+{
+  "name": "NewsCart",
+  "version": "1.0.1",
+  "description": "Read by the article on major news sites.",
+  "permissions": ["activeTab", "storage", "tabs", "<all_urls>", "webRequest", "webRequestBlocking"],
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "run_at": "document_start",
+    "js": [
+      "js/Obfuscator.js",
+      "js/CustomStyleSheet.js",
+      "js/GenericCSSRules.js",
+      "js/ScriptLoader.js",
+      "js/siteFuncs.js",
+      "content.js"
+    ]
+  }],
+  "manifest_version": 2
+}
